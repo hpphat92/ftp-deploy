@@ -123,7 +123,8 @@ function deleteDir(ftp, dir) {
             // delete sub-directories and then all files
             return Promise.mapSeries(dirNames, dirName => {
                 // deletes everything in sub-directory, and then itself
-                return deleteDir(ftp, dirName).then(() => ftp.delete(dirName));
+                
+                return ftp.rmdir(dirName, true);
             })
                 .then(() => Promise.mapSeries(fnames, fname => ftp.delete(fname)));
         });
